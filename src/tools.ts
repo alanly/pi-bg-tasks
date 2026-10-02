@@ -192,7 +192,7 @@ export function registerTools(pi: ExtensionAPI, deps: RegisterToolsDeps): void {
 		const lines = [
 			`${task.id} ended: ${exitDescription(task)}.`,
 			`Duration: ${formatDuration(durationMs)}.`,
-			alsoDelivered ? "The completion was also delivered as an alert." : "",
+			alsoDelivered ? "Note: this result was also delivered as alert." : "",
 			task.stdout.truncated || task.stderr.truncated ? "(older output was dropped; the tail buffer keeps the last 64 KiB)" : "",
 			`Output tail:`,
 			output,
