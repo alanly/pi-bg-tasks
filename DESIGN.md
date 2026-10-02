@@ -204,10 +204,12 @@ Procedure:
 2. Obey `ctx.signal`. A user abort cancels the wait, not the task. Obey the
    optional wait timeout.
 3. Return the exit code, the duration, and the output tail.
-4. When the wait ends (resolve, abort, or timeout), decrease
-   `task.activeWaiters`. Then check: if the task status is `exited`, the
-   `delivered` flag is false, and no other waiter is active, send the alert.
-   This step prevents a lost completion after a waiter abort.
+4. When the wait ends, decrease `task.activeWaiters`. When the wait
+   resolved with the result, do not send an alert: the tool result already
+   carries the result. When the wait ended without the result (abort or
+   wait timeout), then check: if the task status is `exited`, the
+   `delivered` flag is false, and no other waiter is active, send the
+   alert. This step prevents a lost completion after a waiter abort.
 
 Because a waiter is active, the exit handler does not send the automatic
 alert for this task. The `delivered` flag covers the race: if the alert was
