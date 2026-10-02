@@ -2,16 +2,17 @@ import { describe, expect, it, vi } from "vitest";
 import { AlertDelivery, formatResultForModel, MODEL_ALERT_CAP } from "../src/alerts.ts";
 import { TaskRegistry } from "../src/registry.ts";
 import type { BgTask } from "../src/types.ts";
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { TailBuffer } from "../src/ringbuf.ts";
 
-interface FakePi {
-	sendMessage: ReturnType<typeof vi.fn>;
+function fakePi() {
+	const sendMessage = vi.fn().mockResolvedValue(undefined);
+	return { sendMessage };
 }
 
-function fakePi(): FakePi {
-	return { sendMessage: vi.fn().mockResolvedValue(undefined) };
-}
+type RawPi = { sendMessage: ReturnType<typeof vi.fn> };
+
+type MockNotify = ReturnType<typeof vi.fn>;
 
 function fakeCtx(over: Record<string, unknown> = {}) {
 	return {
@@ -45,11 +46,12 @@ function exitedTask(over: Partial<BgTask> = {}): BgTask {
 }
 
 function setup(ctx?: ExtensionContext) {
-	const pi = fakePi();
+	const rawPi: RawPi = fakePi();
+	const pi = rawPi as unknown as ExtensionAPI;
 	const registry = new TaskRegistry();
 	if (ctx) registry.captureContext(ctx);
 	const alerts = new AlertDelivery({ pi, registry });
-	return { pi, registry, alerts };
+	return { pi: rawPi, registry, alerts };
 }
 
 describe("AlertDelivery", () => {

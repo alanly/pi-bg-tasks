@@ -89,7 +89,7 @@ export class ProcessManager {
 		proc.on("error", (err: NodeJS.ErrnoException) => {
 			// Spawn failure: 'exit' may never fire.
 			task.spawnError = err.message;
-			this.handleExit(task, null, undefined, resolveExit);
+			this.handleExit(task, null, null, resolveExit);
 		});
 		proc.on("exit", (code, signal) => {
 			this.handleExit(task, code, signal, resolveExit);
@@ -108,12 +108,17 @@ export class ProcessManager {
 	}
 
 	/** Finalize a task: exit fields, timers, streams, status line, alert. */
-	private handleExit(task: BgTask, code: number | null, signal: string | undefined, resolveExit: () => void): void {
+	private handleExit(
+		task: BgTask,
+		code: number | null,
+		signal: string | null,
+		resolveExit: () => void,
+	): void {
 		if (task.status === "exited") return; // idempotence guard
 		task.status = "exited";
 		task.exitedAt = Date.now();
 		task.exitCode = code;
-		task.signal = signal;
+		task.signal = signal ?? undefined;
 		if (task.timeoutTimer) {
 			clearTimeout(task.timeoutTimer);
 			task.timeoutTimer = undefined;
