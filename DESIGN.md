@@ -378,11 +378,11 @@ Format (themed, in line with the Pi footer rules):
 
 | State | Footer text |
 |---|---|
-| 1 running | `🧵 bg: 1 running` |
-| 2 running | `🧵 bg: 2 running` |
-| 2 running, 1 done, 1 failed | `🧵 bg: 2 running · 1 done · 1 failed` |
-| only done, for example 2 | `🧵 bg: 2 done` |
-| only failed, for example 1 | `🧵 bg: 1 failed` |
+| 1 running | `🧵 1 running` |
+| 2 running | `🧵 2 running` |
+| 2 running, 1 done, 1 failed | `🧵 2 running · 1 done · 1 failed` |
+| only done, for example 2 | `🧵 2 done` |
+| only failed, for example 1 | `🧵 1 failed` |
 | zero tasks | the status is cleared entirely |
 
 - The prefix is the emoji 🧵. The emoji does not change with the theme. The
@@ -398,7 +398,7 @@ if (running > 0) parts.push(t.fg("accent",  `${running} running`));
 if (done > 0)   parts.push(t.fg("success", `${done} done`));
 if (failed > 0) parts.push(t.fg("error",   `${failed} failed`));
 // No double space and no dangling separator: join first, prefix last.
-ctx.ui.setStatus("bg-tasks", parts.length ? `🧵 bg: ${parts.join(" · ")}` : undefined);
+ctx.ui.setStatus("bg-tasks", parts.length ? `🧵 ${parts.join(" · ")}` : undefined);
 ```
 
 - The `failed` count shows in error red. A red count makes failures easy to

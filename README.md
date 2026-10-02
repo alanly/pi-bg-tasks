@@ -19,7 +19,7 @@ without polling.
 A footer status line appears **only while tasks exist**:
 
 ```
-🧵 bg: 2 running · 1 done · 1 failed
+🧵 2 running · 1 done · 1 failed
 ```
 
 Done (exit 0) shows green, failed (nonzero exit, signal, or timeout) shows red.

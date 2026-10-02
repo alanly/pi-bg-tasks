@@ -5,17 +5,17 @@ const identity = (_c: string, t: string) => t;
 
 describe("formatLine", () => {
 	it("shows running only", () => {
-		expect(formatLine({ running: 1, done: 0, failed: 0 }, identity)).toBe("🧵 bg: 1 running");
-		expect(formatLine({ running: 2, done: 0, failed: 0 }, identity)).toBe("🧵 bg: 2 running");
+		expect(formatLine({ running: 1, done: 0, failed: 0 }, identity)).toBe("🧵 1 running");
+		expect(formatLine({ running: 2, done: 0, failed: 0 }, identity)).toBe("🧵 2 running");
 	});
 
 	it("joins all segments with ' · '", () => {
-		expect(formatLine({ running: 2, done: 1, failed: 1 }, identity)).toBe("🧵 bg: 2 running · 1 done · 1 failed");
+		expect(formatLine({ running: 2, done: 1, failed: 1 }, identity)).toBe("🧵 2 running · 1 done · 1 failed");
 	});
 
 	it("omits each zero segment", () => {
-		expect(formatLine({ running: 0, done: 2, failed: 0 }, identity)).toBe("🧵 bg: 2 done");
-		expect(formatLine({ running: 0, done: 0, failed: 1 }, identity)).toBe("🧵 bg: 1 failed");
+		expect(formatLine({ running: 0, done: 2, failed: 0 }, identity)).toBe("🧵 2 done");
+		expect(formatLine({ running: 0, done: 0, failed: 1 }, identity)).toBe("🧵 1 failed");
 		expect(formatLine({ running: 0, done: 0, failed: 0 }, identity)).toBeUndefined();
 	});
 

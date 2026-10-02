@@ -22,7 +22,7 @@ export function formatLine(counts: RegistryCounts, fg: StatusFg): string | undef
 	if (counts.running > 0) parts.push(fg("accent", `${counts.running} running`));
 	if (counts.done > 0) parts.push(fg("success", `${counts.done} done`));
 	if (counts.failed > 0) parts.push(fg("error", `${counts.failed} failed`));
-	return parts.length ? `🧵 bg: ${parts.join(" · ")}` : undefined;
+	return parts.length ? `🧵 ${parts.join(" · ")}` : undefined;
 }
 
 export class StatusLine {
